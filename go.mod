@@ -5,7 +5,6 @@ go 1.17
 replace (
 	github.com/rancher/rancher/pkg/apis => github.com/rancher/rancher/pkg/apis v0.0.0-20220308000653-f2a4147cf98d
 	github.com/rancher/rancher/pkg/client => github.com/rancher/rancher/pkg/client v0.0.0-20220308000653-f2a4147cf98d
-	github.com/satori/go.uuid => github.com/satori/go.uuid v1.2.0
 	k8s.io/api => k8s.io/api v0.22.3
 	k8s.io/apiextensions-apiserver => k8s.io/apiextensions-apiserver v0.22.3
 	k8s.io/apimachinery => k8s.io/apimachinery v0.22.3
@@ -35,7 +34,7 @@ replace (
 )
 
 require (
-	github.com/aliyun/alibaba-cloud-sdk-go v0.0.0-20181022084952-38905f064116
+	github.com/aliyun/alibaba-cloud-sdk-go v1.61.1510
 	github.com/pkg/errors v0.9.1
 	github.com/rancher/rancher v0.0.0-20220308000653-f2a4147cf98d
 	github.com/rancher/rke v1.3.8-rc5
@@ -68,7 +67,6 @@ require (
 	github.com/prometheus/procfs v0.7.3 // indirect
 	github.com/rancher/lasso v0.0.0-20220303220250-a429cb5cb9c9 // indirect
 	github.com/rancher/norman v0.0.0-20220107203912-4feb41eafabd // indirect
-	github.com/satori/go.uuid v1.2.1-0.20181016170032-d91630c85102 // indirect
 	github.com/spf13/pflag v1.0.5 // indirect
 	golang.org/x/oauth2 v0.0.0-20211104180415-d3ed0bb246c8 // indirect
 	golang.org/x/sys v0.0.0-20220114195835-da31bd327af9 // indirect
@@ -80,6 +78,7 @@ require (
 	google.golang.org/grpc v1.43.0 // indirect
 	google.golang.org/protobuf v1.27.1 // indirect
 	gopkg.in/inf.v0 v0.9.1 // indirect
+	gopkg.in/ini.v1 v1.66.2 // indirect
 	gopkg.in/yaml.v2 v2.4.0 // indirect
 	gopkg.in/yaml.v3 v3.0.0-20210107192922-496545a6307b // indirect
 	k8s.io/apiserver v0.23.3 // indirect

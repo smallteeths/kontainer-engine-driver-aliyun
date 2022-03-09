@@ -12,7 +12,6 @@ import (
 	"github.com/aliyun/alibaba-cloud-sdk-go/sdk"
 	"github.com/aliyun/alibaba-cloud-sdk-go/sdk/auth/credentials"
 	"github.com/aliyun/alibaba-cloud-sdk-go/sdk/requests"
-	"github.com/aliyun/alibaba-cloud-sdk-go/sdk/utils"
 	"github.com/aliyun/alibaba-cloud-sdk-go/services/cs"
 	"github.com/rancher/rancher/pkg/kontainer-engine/drivers/options"
 	"github.com/rancher/rancher/pkg/kontainer-engine/drivers/util"
@@ -35,13 +34,6 @@ const (
 )
 
 var EnvMutex sync.Mutex
-
-func init() {
-	// GMT IANA timezone data
-	gmtTzData := []byte{84, 90, 105, 102, 50, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 4, 0, 0, 0, 0, 0, 0, 71, 77, 84, 0, 0, 0, 10, 71, 77, 84, 48, 10}
-	utils.LoadLocationFromTZData = time.LoadLocationFromTZData
-	utils.TZData = gmtTzData
-}
 
 // Driver defines the struct of aliyun driver
 type Driver struct {
