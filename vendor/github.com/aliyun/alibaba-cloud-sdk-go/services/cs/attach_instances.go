@@ -21,7 +21,6 @@ import (
 )
 
 // AttachInstances invokes the cs.AttachInstances API synchronously
-// api document: https://help.aliyun.com/api/cs/attachinstances.html
 func (client *Client) AttachInstances(request *AttachInstancesRequest) (response *AttachInstancesResponse, err error) {
 	response = CreateAttachInstancesResponse()
 	err = client.DoAction(request, response)
@@ -29,8 +28,6 @@ func (client *Client) AttachInstances(request *AttachInstancesRequest) (response
 }
 
 // AttachInstancesWithChan invokes the cs.AttachInstances API asynchronously
-// api document: https://help.aliyun.com/api/cs/attachinstances.html
-// asynchronous document: https://help.aliyun.com/document_detail/66220.html
 func (client *Client) AttachInstancesWithChan(request *AttachInstancesRequest) (<-chan *AttachInstancesResponse, <-chan error) {
 	responseChan := make(chan *AttachInstancesResponse, 1)
 	errChan := make(chan error, 1)
@@ -53,8 +50,6 @@ func (client *Client) AttachInstancesWithChan(request *AttachInstancesRequest) (
 }
 
 // AttachInstancesWithCallback invokes the cs.AttachInstances API asynchronously
-// api document: https://help.aliyun.com/api/cs/attachinstances.html
-// asynchronous document: https://help.aliyun.com/document_detail/66220.html
 func (client *Client) AttachInstancesWithCallback(request *AttachInstancesRequest, callback func(response *AttachInstancesResponse, err error)) <-chan int {
 	result := make(chan int, 1)
 	err := client.AddAsyncTask(func() {
@@ -82,6 +77,8 @@ type AttachInstancesRequest struct {
 // AttachInstancesResponse is the response struct for api AttachInstances
 type AttachInstancesResponse struct {
 	*responses.BaseResponse
+	TaskId string     `json:"task_id" xml:"task_id"`
+	List   []ListItem `json:"list" xml:"list"`
 }
 
 // CreateAttachInstancesRequest creates a request to invoke AttachInstances API

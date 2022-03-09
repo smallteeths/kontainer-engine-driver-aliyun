@@ -1,8 +1,9 @@
-# github.com/aliyun/alibaba-cloud-sdk-go v0.0.0-20181022084952-38905f064116
-## explicit
+# github.com/aliyun/alibaba-cloud-sdk-go v1.61.1510
+## explicit; go 1.13
 github.com/aliyun/alibaba-cloud-sdk-go/sdk
 github.com/aliyun/alibaba-cloud-sdk-go/sdk/auth
 github.com/aliyun/alibaba-cloud-sdk-go/sdk/auth/credentials
+github.com/aliyun/alibaba-cloud-sdk-go/sdk/auth/credentials/provider
 github.com/aliyun/alibaba-cloud-sdk-go/sdk/auth/signers
 github.com/aliyun/alibaba-cloud-sdk-go/sdk/endpoints
 github.com/aliyun/alibaba-cloud-sdk-go/sdk/errors
@@ -114,9 +115,6 @@ github.com/rancher/rancher/pkg/kontainer-engine/types
 ## explicit; go 1.17
 github.com/rancher/rke/log
 github.com/rancher/rke/types
-# github.com/satori/go.uuid v1.2.1-0.20181016170032-d91630c85102 => github.com/satori/go.uuid v1.2.0
-## explicit
-github.com/satori/go.uuid
 # github.com/sirupsen/logrus v1.8.1
 ## explicit; go 1.13
 github.com/sirupsen/logrus
@@ -251,6 +249,9 @@ google.golang.org/protobuf/types/known/timestamppb
 # gopkg.in/inf.v0 v0.9.1
 ## explicit
 gopkg.in/inf.v0
+# gopkg.in/ini.v1 v1.66.2
+## explicit
+gopkg.in/ini.v1
 # gopkg.in/yaml.v2 v2.4.0
 ## explicit; go 1.15
 gopkg.in/yaml.v2
@@ -487,7 +488,6 @@ sigs.k8s.io/structured-merge-diff/v4/value
 sigs.k8s.io/yaml
 # github.com/rancher/rancher/pkg/apis => github.com/rancher/rancher/pkg/apis v0.0.0-20220308000653-f2a4147cf98d
 # github.com/rancher/rancher/pkg/client => github.com/rancher/rancher/pkg/client v0.0.0-20220308000653-f2a4147cf98d
-# github.com/satori/go.uuid => github.com/satori/go.uuid v1.2.0
 # k8s.io/api => k8s.io/api v0.22.3
 # k8s.io/apiextensions-apiserver => k8s.io/apiextensions-apiserver v0.22.3
 # k8s.io/apimachinery => k8s.io/apimachinery v0.22.3

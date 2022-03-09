@@ -17,6 +17,7 @@ package errors
 import (
 	"encoding/json"
 	"fmt"
+
 	"github.com/jmespath/go-jmespath"
 )
 
@@ -25,22 +26,23 @@ var wrapperList = []ServerErrorWrapper{
 }
 
 type ServerError struct {
-	httpStatus int
-	requestId  string
-	hostId     string
-	errorCode  string
-	recommend  string
-	message    string
-	comment    string
+	RespHeaders map[string][]string
+	httpStatus  int
+	requestId   string
+	hostId      string
+	errorCode   string
+	recommend   string
+	message     string
+	comment     string
 }
 
 type ServerErrorWrapper interface {
-	tryWrap(error *ServerError, wrapInfo map[string]string) (bool, *ServerError)
+	tryWrap(error *ServerError, wrapInfo map[string]string) bool
 }
 
 func (err *ServerError) Error() string {
-	return fmt.Sprintf("SDK.ServerError\nErrorCode: %s\nRecommend: %s\nRequestId: %s\nMessage: %s",
-		err.errorCode, err.comment+err.recommend, err.requestId, err.message)
+	return fmt.Sprintf("SDK.ServerError\nErrorCode: %s\nRecommend: %s\nRequestId: %s\nMessage: %s\nRespHeaders: %s",
+		err.errorCode, err.comment+err.recommend, err.requestId, err.message, err.RespHeaders)
 }
 
 func NewServerError(httpStatus int, responseContent, comment string) Error {
@@ -81,9 +83,9 @@ func NewServerError(httpStatus int, responseContent, comment string) Error {
 
 func WrapServerError(originError *ServerError, wrapInfo map[string]string) *ServerError {
 	for _, wrapper := range wrapperList {
-		ok, newError := wrapper.tryWrap(originError, wrapInfo)
+		ok := wrapper.tryWrap(originError, wrapInfo)
 		if ok {
-			return newError
+			return originError
 		}
 	}
 	return originError

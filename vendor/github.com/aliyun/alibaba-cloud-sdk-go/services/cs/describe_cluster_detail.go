@@ -21,7 +21,6 @@ import (
 )
 
 // DescribeClusterDetail invokes the cs.DescribeClusterDetail API synchronously
-// api document: https://help.aliyun.com/api/cs/describeclusterdetail.html
 func (client *Client) DescribeClusterDetail(request *DescribeClusterDetailRequest) (response *DescribeClusterDetailResponse, err error) {
 	response = CreateDescribeClusterDetailResponse()
 	err = client.DoAction(request, response)
@@ -29,8 +28,6 @@ func (client *Client) DescribeClusterDetail(request *DescribeClusterDetailReques
 }
 
 // DescribeClusterDetailWithChan invokes the cs.DescribeClusterDetail API asynchronously
-// api document: https://help.aliyun.com/api/cs/describeclusterdetail.html
-// asynchronous document: https://help.aliyun.com/document_detail/66220.html
 func (client *Client) DescribeClusterDetailWithChan(request *DescribeClusterDetailRequest) (<-chan *DescribeClusterDetailResponse, <-chan error) {
 	responseChan := make(chan *DescribeClusterDetailResponse, 1)
 	errChan := make(chan error, 1)
@@ -53,8 +50,6 @@ func (client *Client) DescribeClusterDetailWithChan(request *DescribeClusterDeta
 }
 
 // DescribeClusterDetailWithCallback invokes the cs.DescribeClusterDetail API asynchronously
-// api document: https://help.aliyun.com/api/cs/describeclusterdetail.html
-// asynchronous document: https://help.aliyun.com/document_detail/66220.html
 func (client *Client) DescribeClusterDetailWithCallback(request *DescribeClusterDetailRequest, callback func(response *DescribeClusterDetailResponse, err error)) <-chan int {
 	result := make(chan int, 1)
 	err := client.AddAsyncTask(func() {

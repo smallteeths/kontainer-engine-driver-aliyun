@@ -21,7 +21,6 @@ import (
 )
 
 // DescribeTemplateAttribute invokes the cs.DescribeTemplateAttribute API synchronously
-// api document: https://help.aliyun.com/api/cs/describetemplateattribute.html
 func (client *Client) DescribeTemplateAttribute(request *DescribeTemplateAttributeRequest) (response *DescribeTemplateAttributeResponse, err error) {
 	response = CreateDescribeTemplateAttributeResponse()
 	err = client.DoAction(request, response)
@@ -29,8 +28,6 @@ func (client *Client) DescribeTemplateAttribute(request *DescribeTemplateAttribu
 }
 
 // DescribeTemplateAttributeWithChan invokes the cs.DescribeTemplateAttribute API asynchronously
-// api document: https://help.aliyun.com/api/cs/describetemplateattribute.html
-// asynchronous document: https://help.aliyun.com/document_detail/66220.html
 func (client *Client) DescribeTemplateAttributeWithChan(request *DescribeTemplateAttributeRequest) (<-chan *DescribeTemplateAttributeResponse, <-chan error) {
 	responseChan := make(chan *DescribeTemplateAttributeResponse, 1)
 	errChan := make(chan error, 1)
@@ -53,8 +50,6 @@ func (client *Client) DescribeTemplateAttributeWithChan(request *DescribeTemplat
 }
 
 // DescribeTemplateAttributeWithCallback invokes the cs.DescribeTemplateAttribute API asynchronously
-// api document: https://help.aliyun.com/api/cs/describetemplateattribute.html
-// asynchronous document: https://help.aliyun.com/document_detail/66220.html
 func (client *Client) DescribeTemplateAttributeWithCallback(request *DescribeTemplateAttributeRequest, callback func(response *DescribeTemplateAttributeResponse, err error)) <-chan int {
 	result := make(chan int, 1)
 	err := client.AddAsyncTask(func() {
@@ -76,7 +71,8 @@ func (client *Client) DescribeTemplateAttributeWithCallback(request *DescribeTem
 // DescribeTemplateAttributeRequest is the request struct for api DescribeTemplateAttribute
 type DescribeTemplateAttributeRequest struct {
 	*requests.RoaRequest
-	TemplateId string `position:"Path" name:"TemplateId"`
+	TemplateType string `position:"Query" name:"template_type"`
+	TemplateId   string `position:"Path" name:"TemplateId"`
 }
 
 // DescribeTemplateAttributeResponse is the response struct for api DescribeTemplateAttribute

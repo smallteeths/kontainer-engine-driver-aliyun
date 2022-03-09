@@ -21,7 +21,6 @@ import (
 )
 
 // CreateTemplate invokes the cs.CreateTemplate API synchronously
-// api document: https://help.aliyun.com/api/cs/createtemplate.html
 func (client *Client) CreateTemplate(request *CreateTemplateRequest) (response *CreateTemplateResponse, err error) {
 	response = CreateCreateTemplateResponse()
 	err = client.DoAction(request, response)
@@ -29,8 +28,6 @@ func (client *Client) CreateTemplate(request *CreateTemplateRequest) (response *
 }
 
 // CreateTemplateWithChan invokes the cs.CreateTemplate API asynchronously
-// api document: https://help.aliyun.com/api/cs/createtemplate.html
-// asynchronous document: https://help.aliyun.com/document_detail/66220.html
 func (client *Client) CreateTemplateWithChan(request *CreateTemplateRequest) (<-chan *CreateTemplateResponse, <-chan error) {
 	responseChan := make(chan *CreateTemplateResponse, 1)
 	errChan := make(chan error, 1)
@@ -53,8 +50,6 @@ func (client *Client) CreateTemplateWithChan(request *CreateTemplateRequest) (<-
 }
 
 // CreateTemplateWithCallback invokes the cs.CreateTemplate API asynchronously
-// api document: https://help.aliyun.com/api/cs/createtemplate.html
-// asynchronous document: https://help.aliyun.com/document_detail/66220.html
 func (client *Client) CreateTemplateWithCallback(request *CreateTemplateRequest, callback func(response *CreateTemplateResponse, err error)) <-chan int {
 	result := make(chan int, 1)
 	err := client.AddAsyncTask(func() {
@@ -81,6 +76,7 @@ type CreateTemplateRequest struct {
 // CreateTemplateResponse is the response struct for api CreateTemplate
 type CreateTemplateResponse struct {
 	*responses.BaseResponse
+	TemplateId string `json:"template_id" xml:"template_id"`
 }
 
 // CreateCreateTemplateRequest creates a request to invoke CreateTemplate API
@@ -89,7 +85,7 @@ func CreateCreateTemplateRequest() (request *CreateTemplateRequest) {
 		RoaRequest: &requests.RoaRequest{},
 	}
 	request.InitWithApiInfo("CS", "2015-12-15", "CreateTemplate", "/templates", "", "")
-	request.Method = requests.PUT
+	request.Method = requests.POST
 	return
 }
 

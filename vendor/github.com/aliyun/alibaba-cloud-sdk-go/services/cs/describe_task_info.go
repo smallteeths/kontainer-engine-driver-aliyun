@@ -21,7 +21,6 @@ import (
 )
 
 // DescribeTaskInfo invokes the cs.DescribeTaskInfo API synchronously
-// api document: https://help.aliyun.com/api/cs/describetaskinfo.html
 func (client *Client) DescribeTaskInfo(request *DescribeTaskInfoRequest) (response *DescribeTaskInfoResponse, err error) {
 	response = CreateDescribeTaskInfoResponse()
 	err = client.DoAction(request, response)
@@ -29,8 +28,6 @@ func (client *Client) DescribeTaskInfo(request *DescribeTaskInfoRequest) (respon
 }
 
 // DescribeTaskInfoWithChan invokes the cs.DescribeTaskInfo API asynchronously
-// api document: https://help.aliyun.com/api/cs/describetaskinfo.html
-// asynchronous document: https://help.aliyun.com/document_detail/66220.html
 func (client *Client) DescribeTaskInfoWithChan(request *DescribeTaskInfoRequest) (<-chan *DescribeTaskInfoResponse, <-chan error) {
 	responseChan := make(chan *DescribeTaskInfoResponse, 1)
 	errChan := make(chan error, 1)
@@ -53,8 +50,6 @@ func (client *Client) DescribeTaskInfoWithChan(request *DescribeTaskInfoRequest)
 }
 
 // DescribeTaskInfoWithCallback invokes the cs.DescribeTaskInfo API asynchronously
-// api document: https://help.aliyun.com/api/cs/describetaskinfo.html
-// asynchronous document: https://help.aliyun.com/document_detail/66220.html
 func (client *Client) DescribeTaskInfoWithCallback(request *DescribeTaskInfoRequest, callback func(response *DescribeTaskInfoResponse, err error)) <-chan int {
 	result := make(chan int, 1)
 	err := client.AddAsyncTask(func() {
@@ -76,12 +71,19 @@ func (client *Client) DescribeTaskInfoWithCallback(request *DescribeTaskInfoRequ
 // DescribeTaskInfoRequest is the request struct for api DescribeTaskInfo
 type DescribeTaskInfoRequest struct {
 	*requests.RoaRequest
-	TaskId string `position:"Path" name:"TaskId"`
+	TaskId string `position:"Path" name:"task_id"`
 }
 
 // DescribeTaskInfoResponse is the response struct for api DescribeTaskInfo
 type DescribeTaskInfoResponse struct {
 	*responses.BaseResponse
+	ClusterId  string      `json:"cluster_id" xml:"cluster_id"`
+	Created    string      `json:"created" xml:"created"`
+	TaskId     string      `json:"task_id" xml:"task_id"`
+	State      string      `json:"state" xml:"state"`
+	TaskType   string      `json:"task_type" xml:"task_type"`
+	Updated    string      `json:"updated" xml:"updated"`
+	TaskResult Task_result `json:"task_result" xml:"task_result"`
 }
 
 // CreateDescribeTaskInfoRequest creates a request to invoke DescribeTaskInfo API
@@ -89,7 +91,7 @@ func CreateDescribeTaskInfoRequest() (request *DescribeTaskInfoRequest) {
 	request = &DescribeTaskInfoRequest{
 		RoaRequest: &requests.RoaRequest{},
 	}
-	request.InitWithApiInfo("CS", "2015-12-15", "DescribeTaskInfo", "/tasks/[TaskId]", "", "")
+	request.InitWithApiInfo("CS", "2015-12-15", "DescribeTaskInfo", "/tasks/[task_id]", "", "")
 	request.Method = requests.GET
 	return
 }

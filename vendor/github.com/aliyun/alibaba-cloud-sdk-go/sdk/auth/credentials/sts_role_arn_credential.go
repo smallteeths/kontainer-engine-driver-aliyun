@@ -15,6 +15,8 @@ type RamRoleArnCredential struct {
 	RoleArn               string
 	RoleSessionName       string
 	RoleSessionExpiration int
+	Policy                string
+	StsRegion             string
 }
 
 // Deprecated: Use RamRoleArnCredential in this package instead.
@@ -45,5 +47,16 @@ func NewRamRoleArnCredential(accessKeyId, accessKeySecret, roleArn, roleSessionN
 		RoleArn:               roleArn,
 		RoleSessionName:       roleSessionName,
 		RoleSessionExpiration: roleSessionExpiration,
+	}
+}
+
+func NewRamRoleArnWithPolicyCredential(accessKeyId, accessKeySecret, roleArn, roleSessionName, policy string, roleSessionExpiration int) *RamRoleArnCredential {
+	return &RamRoleArnCredential{
+		AccessKeyId:           accessKeyId,
+		AccessKeySecret:       accessKeySecret,
+		RoleArn:               roleArn,
+		RoleSessionName:       roleSessionName,
+		RoleSessionExpiration: roleSessionExpiration,
+		Policy:                policy,
 	}
 }

@@ -21,7 +21,6 @@ import (
 )
 
 // CreateCluster invokes the cs.CreateCluster API synchronously
-// api document: https://help.aliyun.com/api/cs/createcluster.html
 func (client *Client) CreateCluster(request *CreateClusterRequest) (response *CreateClusterResponse, err error) {
 	response = CreateCreateClusterResponse()
 	err = client.DoAction(request, response)
@@ -29,8 +28,6 @@ func (client *Client) CreateCluster(request *CreateClusterRequest) (response *Cr
 }
 
 // CreateClusterWithChan invokes the cs.CreateCluster API asynchronously
-// api document: https://help.aliyun.com/api/cs/createcluster.html
-// asynchronous document: https://help.aliyun.com/document_detail/66220.html
 func (client *Client) CreateClusterWithChan(request *CreateClusterRequest) (<-chan *CreateClusterResponse, <-chan error) {
 	responseChan := make(chan *CreateClusterResponse, 1)
 	errChan := make(chan error, 1)
@@ -53,8 +50,6 @@ func (client *Client) CreateClusterWithChan(request *CreateClusterRequest) (<-ch
 }
 
 // CreateClusterWithCallback invokes the cs.CreateCluster API asynchronously
-// api document: https://help.aliyun.com/api/cs/createcluster.html
-// asynchronous document: https://help.aliyun.com/document_detail/66220.html
 func (client *Client) CreateClusterWithCallback(request *CreateClusterRequest, callback func(response *CreateClusterResponse, err error)) <-chan int {
 	result := make(chan int, 1)
 	err := client.AddAsyncTask(func() {
@@ -81,6 +76,9 @@ type CreateClusterRequest struct {
 // CreateClusterResponse is the response struct for api CreateCluster
 type CreateClusterResponse struct {
 	*responses.BaseResponse
+	ClusterId string `json:"cluster_id" xml:"cluster_id"`
+	TaskId    string `json:"task_id" xml:"task_id"`
+	RequestId string `json:"request_id" xml:"request_id"`
 }
 
 // CreateCreateClusterRequest creates a request to invoke CreateCluster API
