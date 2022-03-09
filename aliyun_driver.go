@@ -14,9 +14,9 @@ import (
 	"github.com/aliyun/alibaba-cloud-sdk-go/sdk/requests"
 	"github.com/aliyun/alibaba-cloud-sdk-go/sdk/utils"
 	"github.com/aliyun/alibaba-cloud-sdk-go/services/cs"
-	"github.com/rancher/kontainer-engine/drivers/options"
-	"github.com/rancher/kontainer-engine/drivers/util"
-	"github.com/rancher/kontainer-engine/types"
+	"github.com/rancher/rancher/pkg/kontainer-engine/drivers/options"
+	"github.com/rancher/rancher/pkg/kontainer-engine/drivers/util"
+	"github.com/rancher/rancher/pkg/kontainer-engine/types"
 	"github.com/rancher/rke/log"
 	"github.com/sirupsen/logrus"
 	"golang.org/x/net/context"
@@ -640,6 +640,22 @@ func getClusterUserConfig(svc *cs.Client, state *state) (*api.Config, error) {
 	return clientConfig, validateConfig(clientConfig)
 }
 
+func getrestclientViaKubeconfig(svc *cs.Client, state *state) (*rest.Config, error) {
+	request := NewCsAPIRequest("DescribeClusterTokens", requests.GET)
+	request.PathPattern = "/k8s/[ClusterId]/user_config"
+	request.PathParams["ClusterId"] = state.ClusterID
+
+	userConfig := &clusterUserConfig{}
+	if err := ProcessRequest(svc, request, userConfig); err != nil {
+		return nil, err
+	}
+	clientset, err := clientcmd.RESTConfigFromKubeConfig([]byte(userConfig.Config))
+	if err != nil {
+		return nil, err
+	}
+	return clientset, nil
+}
+
 func validateConfig(config *api.Config) error {
 	if config == nil {
 		return fmt.Errorf("get nil config")
@@ -807,6 +823,11 @@ func getClientset(info *types.ClusterInfo) (*kubernetes.Clientset, error) {
 	if err != nil {
 		return nil, err
 	}
+	var config *rest.Config
+	config, err = getrestclientViaKubeconfig(svc, state)
+	if err != nil {
+		return nil, err
+	}
 
 	currentContext := userConfig.Contexts[userConfig.CurrentContext]
 	info.Endpoint = userConfig.Clusters[currentContext.Cluster].Server
@@ -820,14 +841,16 @@ func getClientset(info *types.ClusterInfo) (*kubernetes.Clientset, error) {
 	if !strings.HasPrefix(host, "https://") {
 		host = fmt.Sprintf("https://%s", host)
 	}
-
-	config := &rest.Config{
-		Host: host,
-		TLSClientConfig: rest.TLSClientConfig{
-			CAData:   userConfig.Clusters[currentContext.Cluster].CertificateAuthorityData,
-			KeyData:  userConfig.AuthInfos[currentContext.AuthInfo].ClientKeyData,
-			CertData: userConfig.AuthInfos[currentContext.AuthInfo].ClientCertificateData,
-		},
+	if config == nil {
+		config = &rest.Config{
+			Host:      host,
+			UserAgent: clusterAdmin,
+			TLSClientConfig: rest.TLSClientConfig{
+				CAData:   userConfig.Clusters[currentContext.Cluster].CertificateAuthorityData,
+				KeyData:  userConfig.AuthInfos[currentContext.AuthInfo].ClientKeyData,
+				CertData: userConfig.AuthInfos[currentContext.AuthInfo].ClientCertificateData,
+			},
+		}
 	}
 	return kubernetes.NewForConfig(config)
 }
@@ -952,7 +975,11 @@ func (d *Driver) ETCDSave(ctx context.Context, clusterInfo *types.ClusterInfo, o
 	return fmt.Errorf("ETCD backup operations are not implemented")
 }
 
-func (d *Driver) ETCDRestore(ctx context.Context, clusterInfo *types.ClusterInfo, opts *types.DriverOptions, snapshotName string) error {
+func (d *Driver) ETCDRestore(ctx context.Context, clusterInfo *types.ClusterInfo, opts *types.DriverOptions, snapshotName string) (*types.ClusterInfo, error) {
+	return nil, fmt.Errorf("ETCD backup operations are not implemented")
+}
+
+func (d *Driver) ETCDRemoveSnapshot(ctx context.Context, clusterInfo *types.ClusterInfo, opts *types.DriverOptions, snapshotName string) error {
 	return fmt.Errorf("ETCD backup operations are not implemented")
 }
 

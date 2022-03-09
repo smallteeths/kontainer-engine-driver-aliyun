@@ -42,7 +42,7 @@ func GenerateServiceAccountToken(clientset kubernetes.Interface) (string, error)
 		},
 	}
 
-	_, err := clientset.CoreV1().ServiceAccounts(defaultNamespace).Create(serviceAccount)
+	_, err := clientset.CoreV1().ServiceAccounts(defaultNamespace).Create(context.TODO(), serviceAccount, metav1.CreateOptions{})
 	if err != nil && !errors.IsAlreadyExists(err) {
 		return "", fmt.Errorf("error creating service account: %v", err)
 	}
@@ -63,9 +63,9 @@ func GenerateServiceAccountToken(clientset kubernetes.Interface) (string, error)
 			},
 		},
 	}
-	clusterAdminRole, err := clientset.RbacV1beta1().ClusterRoles().Get(clusterAdmin, metav1.GetOptions{})
+	clusterAdminRole, err := clientset.RbacV1beta1().ClusterRoles().Get(context.TODO(), clusterAdmin, metav1.GetOptions{})
 	if err != nil {
-		clusterAdminRole, err = clientset.RbacV1beta1().ClusterRoles().Create(adminRole)
+		clusterAdminRole, err = clientset.RbacV1beta1().ClusterRoles().Create(context.TODO(), adminRole, metav1.CreateOptions{})
 		if err != nil {
 			return "", fmt.Errorf("error creating admin role: %v", err)
 		}
@@ -89,20 +89,20 @@ func GenerateServiceAccountToken(clientset kubernetes.Interface) (string, error)
 			APIGroup: v1beta1.GroupName,
 		},
 	}
-	if _, err = clientset.RbacV1beta1().ClusterRoleBindings().Create(clusterRoleBinding); err != nil && !errors.IsAlreadyExists(err) {
+	if _, err = clientset.RbacV1beta1().ClusterRoleBindings().Create(context.TODO(), clusterRoleBinding, metav1.CreateOptions{}); err != nil && !errors.IsAlreadyExists(err) {
 		return "", fmt.Errorf("error creating role bindings: %v", err)
 	}
 
 	start := time.Millisecond * 250
 	for i := 0; i < 5; i++ {
 		time.Sleep(start)
-		if serviceAccount, err = clientset.CoreV1().ServiceAccounts(defaultNamespace).Get(serviceAccount.Name, metav1.GetOptions{}); err != nil {
+		if serviceAccount, err = clientset.CoreV1().ServiceAccounts(defaultNamespace).Get(context.TODO(), serviceAccount.Name, metav1.GetOptions{}); err != nil {
 			return "", fmt.Errorf("error getting service account: %v", err)
 		}
 
 		if len(serviceAccount.Secrets) > 0 {
 			secret := serviceAccount.Secrets[0]
-			secretObj, err := clientset.CoreV1().Secrets(defaultNamespace).Get(secret.Name, metav1.GetOptions{})
+			secretObj, err := clientset.CoreV1().Secrets(defaultNamespace).Get(context.TODO(), secret.Name, metav1.GetOptions{})
 			if err != nil {
 				return "", fmt.Errorf("error getting secret: %v", err)
 			}
@@ -118,7 +118,6 @@ func GenerateServiceAccountToken(clientset kubernetes.Interface) (string, error)
 
 // NewCsAPIRequest constructs general aliyun sdk request
 func NewCsAPIRequest(apiName, method string) *requests.CommonRequest {
-	requests.NewCommonRequest()
 	request := requests.NewCommonRequest()
 	request.Version = "2015-12-15"
 	request.ApiName = apiName

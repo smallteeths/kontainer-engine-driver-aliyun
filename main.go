@@ -7,7 +7,7 @@ import (
 	"strconv"
 	"sync"
 
-	"github.com/rancher/kontainer-engine/types"
+	"github.com/rancher/rancher/pkg/kontainer-engine/types"
 	"github.com/sirupsen/logrus"
 )
 
